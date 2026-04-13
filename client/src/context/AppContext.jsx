@@ -37,8 +37,6 @@ export const AppContextProvider = (props) => {
   if (!backendUrl) {
     console.error('❌ VITE_BACKEND_URL environment variable is not set!');
     console.error('❌ Please create a .env file in the client directory with VITE_BACKEND_URL=http://localhost:5000');
-  } else {
-    console.log('🌐 Backend URL:', backendUrl);
   }
 
   const { user } = useUser();
@@ -139,10 +137,7 @@ export const AppContextProvider = (props) => {
     }
 
     try {
-      console.log("🔍 Attempting to get token from Clerk...");
       const token = await getToken();
-      console.log("🔑 Token received:", token ? "Yes" : "No");
-      console.log("🔑 Token preview:", token ? token.substring(0, 20) + "..." : "No token");
       if (!token) {
         console.error("❌ No token available from Clerk");
         return;
@@ -205,7 +200,7 @@ export const AppContextProvider = (props) => {
         );
       }
     }
-  }, [user, backendUrl, getToken, userApplications.length]);
+  }, [user, backendUrl, getToken]);
 
   // Function to sync user with backend
   const syncUser = useCallback(async () => {
@@ -234,7 +229,6 @@ export const AppContextProvider = (props) => {
         throw new Error("Email address is required");
       }
 
-      console.log("🔄 Syncing user with backend:", backendUrl);
       const { data } = await retryRequest(async () => 
         axios.post(
           `${backendUrl}/api/users/sync`,
@@ -383,13 +377,13 @@ export const AppContextProvider = (props) => {
     }
   }, [user, hasSynced, isSyncing, syncUser, fetchUserData, fetchUserApplications]);
 
-  // Reset sync state when user changes
+  // Reset sync state when user changes (use user?.id to avoid re-triggering on object re-creation)
   useEffect(() => {
     if (user) {
       setHasSynced(false);
       setIsSyncing(false);
     }
-  }, [user]);
+  }, [user?.id]);
 
   // Function to clear user data when switching accounts
   const clearUserData = useCallback(() => {

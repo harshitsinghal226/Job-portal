@@ -39,15 +39,7 @@ router.get('/whoami', protectCompany, (req, res) => {
   res.json({ success: true, company: { id: req.company._id, email: req.company.email, name: req.company.name } });
 });
 
-// Debug endpoint to see all companies (remove this in production)
-router.get('/debug/companies', async (req, res) => {
-  try {
-    const companies = await Company.find({}, { password: 0 }); // Don't show passwords
-    res.json({ success: true, count: companies.length, companies });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-});
+
 
 //Register a company
 router.post('/register', uploadImageWithDebug, registerCompany);

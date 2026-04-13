@@ -106,7 +106,6 @@ export const applyForJob = async (req, res) => {
       application: {
         id: application._id,
         jobTitle: job.title,
-        companyName: job.companyId?.name || 'Unknown Company',
         status: application.status,
         submittedAt: application.createdAt
       }

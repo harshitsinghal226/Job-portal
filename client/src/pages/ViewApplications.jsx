@@ -78,7 +78,7 @@ const ViewApplications = () => {
             </thead>
             <tbody>
               {applicants
-                .filter((item) => item.jobId && item.userId)
+                .filter((item) => item.jobId)
                 .map((applicant, index) => (
                   <tr
                     key={index}
@@ -186,7 +186,7 @@ const ViewApplications = () => {
                                 : "bg-red-100 text-red-700 border border-red-200"
                             }`}
                           >
-                            {applicant.status === "accepted" ? "Accept" : "Reject"}
+                            {applicant.status === "accepted" ? "Accepted" : "Rejected"}
                           </span>
                         )}
                       </div>

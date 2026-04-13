@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import axios from "axios";
@@ -18,6 +19,7 @@ const AddJob = () => {
   const quillRef = useRef(null);
 
   const { backendUrl, companyToken, setCompanyToken } = useContext(AppContext);
+  const navigate = useNavigate();
 
   // Component mounted
   useEffect(() => {
@@ -84,7 +86,7 @@ const AddJob = () => {
         
         // Navigate to manage jobs after successful post
         setTimeout(() => {
-          window.location.href = "/dashboard/manage-jobs";
+          navigate("/dashboard/manage-jobs");
         }, 1500);
       } else {
         toast.error(data.message || "Failed to post job");

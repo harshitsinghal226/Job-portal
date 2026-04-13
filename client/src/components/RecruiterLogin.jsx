@@ -64,11 +64,14 @@ const RecruiterLogin = ({ onClose }) => {
         email,
         password,
       });
-      localStorage.setItem("recruiterToken", data.token);
-      setCompanyToken(data.token);
-      setShowRecruiterLogin(false);
-      // Navigate to company dashboard instead of user dashboard
-      navigate("/dashboard/add-job");
+      if (data.success) {
+        localStorage.setItem("recruiterToken", data.token);
+        setCompanyToken(data.token);
+        setShowRecruiterLogin(false);
+        navigate("/dashboard/add-job");
+      } else {
+        alert(data.message || "Login failed");
+      }
     } catch (error) {
       console.error("Login error details:", {
         response: error.response?.data,
@@ -114,11 +117,14 @@ const RecruiterLogin = ({ onClose }) => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      localStorage.setItem("recruiterToken", data.token);
-      setCompanyToken(data.token);
-      setShowRecruiterLogin(false);
-      // Navigate to company dashboard instead of user dashboard
-      navigate("/dashboard/add-job");
+      if (data.success) {
+        localStorage.setItem("recruiterToken", data.token);
+        setCompanyToken(data.token);
+        setShowRecruiterLogin(false);
+        navigate("/dashboard/add-job");
+      } else {
+        alert(data.message || "Signup failed");
+      }
     } catch (error) {
       console.error("Signup error details:", {
         response: error.response?.data,

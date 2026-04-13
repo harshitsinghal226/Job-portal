@@ -47,20 +47,22 @@ app.get('/health', (req, res) => res.json({ status: 'OK', timestamp: new Date() 
 // --- Root ---
 app.get('/', (req, res) => res.send('✅ API is working'));
 
-// --- Test route for debugging ---
-app.get('/test', (req, res) => {
-  res.json({
-    status: 'OK',
-    timestamp: new Date().toISOString(),
-    environment: {
-      nodeEnv: process.env.NODE_ENV,
-      hasMongoDB: mongoose.connection.readyState === 1,
-      hasJWTSecret: !!process.env.JWT_SECRET,
-      hasClerkSecret: !!process.env.CLERK_SECRET_KEY,
-      hasCloudinary: !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY)
-    }
+// --- Test route for debugging (development only) ---
+if (process.env.NODE_ENV === 'development') {
+  app.get('/test', (req, res) => {
+    res.json({
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      environment: {
+        nodeEnv: process.env.NODE_ENV,
+        hasMongoDB: mongoose.connection.readyState === 1,
+        hasJWTSecret: !!process.env.JWT_SECRET,
+        hasClerkSecret: !!process.env.CLERK_SECRET_KEY,
+        hasCloudinary: !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY)
+      }
+    });
   });
-});
+}
 
 // --- Test file upload ---
 app.post('/test-upload', uploadImage, (req, res) => {

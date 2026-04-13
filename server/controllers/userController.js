@@ -396,7 +396,7 @@ export const updateUserResume = async (req, res) => {
       });
       resumeUrl = uploadResponse.secure_url;
     } catch (cloudinaryError) {
-      resumeUrl = resumeFile.filename;
+      resumeUrl = `/uploads/${resumeFile.filename}`;
     }
 
     fs.unlink(resumeFile.path, (err) => {

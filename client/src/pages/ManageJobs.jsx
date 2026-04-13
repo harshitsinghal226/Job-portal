@@ -52,9 +52,9 @@ const ManageJobs = () => {
         toast.success(data.message || "Job visibility updated");
         setJobs((prev) =>
           prev.map((job) =>
-            job._id === id ? { ...job, visible: !job.visible } : job
+            job._id === id ? { ...job, visible: data.job?.visible ?? !job.visible } : job
           )
-        ); // update state directly (avoids refetch)
+        ); // sync with server-returned state
       } else {
         toast.error(data.message || "Failed to update visibility");
       }

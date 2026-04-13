@@ -69,21 +69,21 @@ const App = () => {
   const showNavbar = !location.pathname.startsWith("/dashboard");
   const { user } = useUser();
 
-  // Clear user data when user changes (additional protection)
+  // Clear user data only when user signs out (tracked by user?.id to avoid running on every render)
   useEffect(() => {
-    if (user) {
-      // Redirect user away from auth pages after successful login
-      if (location.pathname.startsWith('/sign-in') || location.pathname.startsWith('/sign-up')) {
-        // Check if there's a redirect parameter
-        const urlParams = new URLSearchParams(location.search);
-        const redirectTo = urlParams.get('redirect') || '/';
-        navigate(redirectTo, { replace: true });
-      }
-    } else {
-      // Clear data when user logs out
+    if (!user) {
       clearUserData();
     }
-  }, [user?.id, clearUserData, location.pathname, location.search, navigate]);
+  }, [user?.id, clearUserData]);
+
+  // Redirect user away from auth pages after successful login
+  useEffect(() => {
+    if (user && (location.pathname.startsWith('/sign-in') || location.pathname.startsWith('/sign-up'))) {
+      const urlParams = new URLSearchParams(location.search);
+      const redirectTo = urlParams.get('redirect') || '/';
+      navigate(redirectTo, { replace: true });
+    }
+  }, [user, location.pathname, location.search, navigate]);
 
   return (
     <div className="relative">

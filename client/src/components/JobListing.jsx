@@ -207,7 +207,7 @@ const JobListing = () => {
           ) : filteredJobs.length > 0 ? (
             filteredJobs
               .slice((currentPage - 1) * jobsPerPage, currentPage * jobsPerPage)
-              .map((job, index) => <JobCard key={index} job={job} />)
+              .map((job) => <JobCard key={job._id} job={job} />)
           ) : (
             <p className="col-span-full text-center text-gray-500">
               No jobs found. Try adjusting filters.

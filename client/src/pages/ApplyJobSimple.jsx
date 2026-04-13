@@ -26,12 +26,6 @@ const ApplyJobSimple = () => {
 
   const { jobs, userApplications, userData } = useContext(AppContext);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
-  
-  // Validate backend URL is set
-  if (!backendUrl) {
-    console.error('❌ VITE_BACKEND_URL environment variable is not set!');
-    return <div className="text-center py-10">Backend URL not configured. Please check your environment variables.</div>;
-  }
 
   // Check if user is already applied for this job
   useEffect(() => {
@@ -163,6 +157,11 @@ const ApplyJobSimple = () => {
   useEffect(() => {
     fetchJob();
   }, [id]);
+
+  // Guard against missing environment variable (moved after all hooks/effects to comply with Rules of Hooks)
+  if (!backendUrl) {
+    return <div className="text-center py-10">Backend URL not configured. Please check your environment variables.</div>;
+  }
 
   if (isLoading || !isLoaded) return <Loading />;
   if (!jobData) return (

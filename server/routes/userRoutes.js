@@ -114,7 +114,12 @@ const handleUserSync = async (req, res) => {
 
 // Routes - sync endpoint needs ClerkExpressWithAuth
 router.post("/sync", ClerkExpressWithAuth({
-  authorizedParties: ['https://job-portal-q3rr.vercel.app', 'https://job-portal-2gry.onrender.com']
+  authorizedParties: [
+    'http://localhost:5173',
+    'http://localhost:5000',
+    'https://job-portal-q3rr.vercel.app',
+    'https://job-portal-2gry.onrender.com'
+  ]
 }), handleUserSync);
 
 // Protect all routes after this middleware (except sync which is above)
